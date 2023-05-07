@@ -1,14 +1,21 @@
 #include <iostream>
 #include <sqlite3.h>
 
+int callback(void* data, int argc, char** argv, char** azColName) {
+    for (int i = 0; i < argc; i++) {
+        std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << std::endl;
+    }
+    return 0;
+}
 
 int main() {
     sqlite3* db;
     int rc = sqlite3_open("SDP.db", &db);
 
-    const char* sql = "SELECT c1.name, c2.name FROM courses c1, courses c2, prerequisites p WHERE c1.id = p.prereq_id AND c2.id = p.course_id;";
 
-    rc = sqlite3_exec(db, sql, 0, 0, NULL);
+    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, 0, NULL);
+
+    std::cout << rc << std::endl;
 
     sqlite3_close(db);
 
