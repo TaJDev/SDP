@@ -1,3 +1,26 @@
+
+#include <iostream>
+#include <sqlite3.h>
+
+int callback(void* data, int argc, char** argv, char** azColName) {
+    for (int i = 0; i < argc; i++) {
+        std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << std::endl;
+    }
+    return 0;
+}
+
+int main() {
+    sqlite3* db;
+    int rc = sqlite3_open("SDP.db", &db);
+
+
+    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, 0, NULL);
+
+    std::cout << rc << std::endl;
+
+    sqlite3_close(db);
+
+
 std::string course_name;
     std::cout << "Enter a course name: ";
     std::getline(std::cin, course_name);
@@ -48,3 +71,9 @@ std::string course_name;
     std::string pass_sql = "SELECT COUNT(*) FROM grades WHERE course_id = " + std::to_string(course_id) + " AND grade >= 60;";
     int pass_count;
     rc = sqlite3_exec(db, pass_sql.c_str(), [](void* data, int argc, char** argv, char** azCol
+
+ 
+
+
+    return 0;
+}
