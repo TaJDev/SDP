@@ -25,15 +25,14 @@ int main() {
     std::cout << "Enter a course name: ";
     std::getline(std::cin, course_name);
 
-    // Retrieve the course ID from the database
     std::string course_id_sql = "SELECT id FROM courses WHERE name = '" + course_name + "';";
-    int course_id;
-    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", [](void* data, int argc, char** argv, char** azColName) -> int {
-        if (argc > 0 && argv[0]) {
-            *reinterpret_cast<int*>(data) = std::stoi(argv[0]);
-        }
-        return 0;
-    }, &course_id, NULL);
+int course_id;
+rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", [](void* data, int argc, char** argv, char** azColName) -> int {
+    if (argc > 0 && argv[0]) {
+        *reinterpret_cast<int*>(data) = std::stoi(argv[0]);
+    }
+    return 0;
+}, &course_id, NULL);
 
     if (rc != SQLITE_OK) {
         std::cout << "SQL error: " << sqlite3_errmsg(db) << std::endl;
