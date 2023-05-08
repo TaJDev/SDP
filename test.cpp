@@ -21,7 +21,7 @@ int main() {
     sqlite3_close(db);
 
 
-std::string course_name;
+ std::string course_name;
     std::cout << "Enter a course name: ";
     std::getline(std::cin, course_name);
 
@@ -71,9 +71,3 @@ std::string course_name;
     std::string pass_sql = "SELECT COUNT(*) FROM grades WHERE course_id = " + std::to_string(course_id) + " AND grade >= 60;";
     int pass_count;
     rc = sqlite3_exec(db, pass_sql.c_str(), [](void* data, int argc, char** argv, char** azCol
-
- 
-
-
-    return 0;
-}
