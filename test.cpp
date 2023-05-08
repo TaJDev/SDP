@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sqlite3.h>
 
+
 int callback(void* data, int argc, char** argv, char** azColName) {
     for (int i = 0; i < argc; i++) {
         std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << std::endl;
@@ -25,10 +26,11 @@ int main() {
     std::getline(std::cin, class_name);
 
     // Retrieve the class ID from the database
-    std::string class_id_sql = "SELECT id FROM courses WHERE name = '" + class_name + "';";
+    std::string class_id_sql = "SELECT CourseID FROM CSDP_Curriculum WHERE CourseName = '" + class_name + "';";
     int class_id;
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2(db, class_id_sql.c_str(), -1, &stmt, NULL);
+    
+    rc = sqlite3_prepare_v2(db,"SELECT * from CSDP_Curriculum;" , -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
         std::cerr << "Error preparing statement: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_close(db);
@@ -47,7 +49,7 @@ int main() {
 
     // Retrieve prerequisite names from the database
     std::vector<std::string> prereq_names;
-    std::string prereq_sql = "SELECT courses.name FROM prerequisites INNER JOIN courses ON prerequisites.prereq_id = courses.id WHERE prerequisites.course_id = " + std::to_string(class_id) + ";";
+    std::string prereq_sql = "SELECT CSDP_Curriculum.name FROM prereq1 INNER JOIN CSDP_Curriculum ON prereq1.prereq_id = courses.id WHERE prereq1.CourseID = " + std::to_string(class_id) + ";";
     rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, &prereq_names, NULL);
     if (rc != SQLITE_OK) {
         std::cerr << "Error retrieving prerequisite names from database: " << sqlite3_errmsg(db) << std::endl;
