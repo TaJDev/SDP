@@ -18,48 +18,48 @@ int main() {
     std::cout << rc << std::endl;
 
     sqlite3_close(db);
+}
 
-  std::string course_name;
-    std::cout << "Enter a course name: ";
-    std::getline(std::cin, course_name);
+  std::string class_name;
+    std::cout << "Enter class name: ";
+    std::getline(std::cin, class_name);
 
-    // Retrieve the course ID from the database
-    std::string course_id_sql = "SELECT id FROM courses WHERE name = '" + course_name + "';";
-    int course_id;
-    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum", [](void* data, int argc, char** argv, char** azColName) -> int {
-        if (argc > 0 && argv[0]) {
-            *reinterpret_cast<int*>(data) = std::stoi(argv[0]);
-        }
-        return 0;
-    }, &course_id, NULL);
-
+    // Retrieve the class ID from the database
+    std::string class_id_sql = "SELECT id FROM courses WHERE name = '" + class_name + "';";
+    int class_id;
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(db, class_id_sql.c_str(), -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+        std::cerr << "Error preparing statement: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_close(db);
         return 1;
     }
-
-    if (course_id == 0) {
-        std::cout << "Invalid course name" << std::endl;
-        sqlite3_close(db);
-        return 1;
-    }
-
-    // Retrieve the prerequisites for the course
-    std::vector<std::string> prereq_names;
-    std::string prereq_sql = "SELECT c2.name FROM courses c1, courses c2, prerequisites p WHERE c1.id = " + std::to_string(course_id) + " AND c1.id = p.course_id AND c2.id = p.prereq_id;";
-    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, &prereq_names, NULL);
-
-    if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << sqlite3_errmsg(db) << std::endl;
-        sqlite3_close(db);
-        return 1;
-    }
-
-    if (prereq_names.empty()) {
-        std::cout << "No prerequisites found for " << course_name << std::endl;
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_ROW) {
+        class_id = sqlite3_column_int(stmt, 0);
     } else {
-        std::cout << "Prerequisites for " << course_name << ":" << std::endl;
+        std::cerr << "Error retrieving class ID from database" << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return 1;
+    }
+    sqlite3_finalize(stmt);
+
+    // Retrieve prerequisite names from the database
+    std::vector<std::string> prereq_names;
+    std::string prereq_sql = "SELECT courses.name FROM prerequisites INNER JOIN courses ON prerequisites.prereq_id = courses.id WHERE prerequisites.course_id = " + std::to_string(class_id) + ";";
+    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, &prereq_names, NULL);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error retrieving prerequisite names from database: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+        return 1;
+    }
+
+    // Output the prerequisite names
+    std::cout << "Prerequisites for " << class_name << ":" << std::endl;
+    if (prereq_names.empty()) {
+        std::cout << "None" << std::endl;
+    } else {
         for (const auto& prereq_name : prereq_names) {
             std::cout << "- " << prereq_name << std::endl;
         }
@@ -68,3 +68,7 @@ int main() {
     sqlite3_close(db);
     return 0;
 }
+
+
+
+ 
