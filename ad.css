@@ -1,0 +1,142 @@
+.p{
+    background: linear-gradient(  rgb(119, 11, 11) -2px, rgb(253, 253, 253));
+    }
+
+
+    .L{
+
+        color: rgba(226, 4, 130, 0.616);
+        
+        }
+        .box {
+          
+          width: 50px;
+          height: 50px;
+          background-color: #800000;
+          border: 2px dashed rgb(0, 0, 0);
+          
+        }
+  
+        .big {
+          border: 9px dashed rgb(255, 255, 255); 
+      background-color: #800000; 
+      text-align: center;
+       font-size: 15px;
+        }
+
+     .love{
+       position: relative; /* or absolute, depending on your layout */
+       top: -910px;
+       left: 700px;
+     }
+       
+        
+        
+        
+
+    .color{
+      color: rgb(117, 44, 44);
+    }
+    .fontsize {
+      color: rgb(179, 176, 178);
+    font-size: 50px;
+    font-style: oblique;
+    font-variant: small-caps;
+  font-weight: bold;
+    text-shadow: 5px 5px 2px rgb(78, 21, 21),
+    -3px 6px 5px rgb(105, 45, 45);
+    text-align: center;
+    }
+.stu{
+  color: rgb(179, 176, 178);
+  font-size: 50px;
+  font-style: oblique;
+  font-variant: small-caps;
+font-weight: bold;
+  text-shadow: 5px 5px 2px rgb(78, 21, 21),
+  -3px 6px 5px rgb(105, 45, 45);
+  text-align: center;
+  position: relative; /* or absolute, depending on your layout */
+       top: -10px;
+       left: 200px;
+
+}
+
+.prof{
+  color: rgb(179, 176, 178);
+  font-size: 50px;
+  font-style: oblique;
+  font-variant: small-caps;
+font-weight: bold;
+  text-shadow: 5px 5px 2px rgb(78, 21, 21),
+  -3px 6px 5px rgb(105, 45, 45);
+  text-align: center;
+  position: relative; /* or absolute, depending on your layout */
+       top: -10px;
+       right: 200px;
+
+}
+    
+
+    form {
+      width: 5000px;
+      height: 5000px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #be4949;
+      background-color: #8a3b3b;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input[type="text"], input[type="email"], textarea {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    
+    input[type="file"] {
+      margin-top: 10px;
+    }
+    
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    input[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+    
+  
+     .closingtext
+{
+font-size: 80px;
+}
+
+.donesize {
+  font-size: 50px;
+
+}
+   
+
+    
+
+
+   
+
+
+  
