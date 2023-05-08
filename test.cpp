@@ -28,7 +28,7 @@ int main() {
     // Retrieve the course ID from the database
     std::string course_id_sql = "SELECT id FROM courses WHERE name = '" + course_name + "';";
     int course_id;
-    rc = sqlite3_exec(db, course_id_sql.c_str(), [](void* data, int argc, char** argv, char** azColName) -> int {
+    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", [](void* data, int argc, char** argv, char** azColName) -> int {
         if (argc > 0 && argv[0]) {
             *reinterpret_cast<int*>(data) = std::stoi(argv[0]);
         }
@@ -50,7 +50,7 @@ int main() {
     // Retrieve the prerequisites for the course
     std::vector<std::string> prereq_names;
     std::string prereq_sql = "SELECT c2.name FROM courses c1, courses c2, prerequisites p WHERE c1.id = " + std::to_string(course_id) + " AND c1.id = p.course_id AND c2.id = p.prereq_id;";
-    rc = sqlite3_exec(db, prereq_sql.c_str(), callback, &prereq_names, NULL);
+    rc = sqlite3_exec(db, "SELECT * from CSDP_Curriculum;", callback, &prereq_names, NULL);
 
     if (rc != SQLITE_OK) {
         std::cout << "SQL error: " << sqlite3_errmsg(db) << std::endl;
